@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Upcoming Events</h1>
+{% if events %}
+    <ul>
+        {% for event in events %}
+            <li>
+                <h2>{{ event.title }}</h2>
+                <p>{{ event.description|linebreaks }}</p>
+                <p><strong>Date:</strong> {{ event.date }} at {{ event.time }}</p>
+                <p><strong>Location:</strong> {{ event.location }}</p>
+                <p><strong>Created by:</strong> {{ event.created_by.get_full_name|default:event.created_by.username }}</p>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        {% if is_paginated %}
+            <nav>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+{% else %}
+    <p>No upcoming events.</p>
+{% endif %}
+
+<p><a href="{% url 'past_events' %}">View Past Events</a></p>
+
+{% endblock %}
