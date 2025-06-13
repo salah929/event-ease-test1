@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import Event
 
 
-def events(request):
-    return HttpResponse("Welcome to Events!")
+class EventList(generic.ListView):
+    model = Event
+    template_name = 'events/event_list.html'
+    context_object_name = 'events'
+    queryset = Event.objects.filter(status=1)
+    ordering = ['-created_at']

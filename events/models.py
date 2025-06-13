@@ -27,3 +27,20 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class EventRegistration(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='registrations')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,
+                              related_name='registrations')
+    note = models.TextField(blank=True, null=True)
+    approved = models.BooleanField(default=False)
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'event')
+        ordering = ['-registered_at']
+
+    def __str__(self):
+        return f"{self.user.username} registered for {self.event.title}"
