@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="text-center mb-4">
+    <p class="lead">
+        Welcome to <strong>EventEase</strong> – your go-to platform for discovering and managing upcoming events.
+        Stay informed, get involved, and never miss a moment!
+    </p>
+</div>
+
 <h1>Upcoming Events</h1>
 {% if events %}
-    <ul>
+    <ul class="event-list">
         {% for event in events %}
             <li>
-                <h2>{{ event.title }}</h2>
+                <h2>
+                    {{ event.title }}
+                    <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+
+                </h2>
                 <p>{{ event.description|linebreaks }}</p>
                 <p><strong>Date:</strong> {{ event.date }} at {{ event.time }}</p>
                 <p><strong>Location:</strong> {{ event.location }}</p>
                 <p><strong>Created by:</strong> {{ event.created_by.get_full_name|default:event.created_by.username }}</p>
             </li>
-            <hr>
         {% endfor %}
     </ul>
 
