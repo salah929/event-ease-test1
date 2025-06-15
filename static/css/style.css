@@ -18,9 +18,12 @@ ul {
     background-color: #f9f9f9;
 }
 
-h1 {
-    text-align: center;
+.detail-event {
     margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 h2 {
@@ -35,4 +38,21 @@ p {
 .pagination {
     margin-top: 20px;
     justify-content: center;
+}
+
+.btn-signup:hover,
+.btn-signup:active {
+    background-color: #fff;
+    color: #23BBBB;
+}
+
+.btn-signup {
+    background-color: #188181;
+    color: #fff;
+}
+
+.link:hover,
+.link:active {
+    color: #445261;
+    text-decoration: underline;
 }

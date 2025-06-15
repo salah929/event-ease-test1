@@ -34,8 +34,7 @@ class EventRegistration(models.Model):
                              related_name='registrations')
     event = models.ForeignKey(Event, on_delete=models.CASCADE,
                               related_name='registrations')
-    note = models.TextField(blank=True, null=True)
-    approved = models.BooleanField(default=False)
+    note = models.CharField(max_length=255, blank=True, null=True)
     registered_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
