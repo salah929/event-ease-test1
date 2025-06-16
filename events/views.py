@@ -1,11 +1,15 @@
 from django.shortcuts import render
-from django.views import generic
+from django.views import View, generic
+from django.views.generic.edit import CreateView
 from .models import Event, EventRegistration
 from datetime import date
-from .forms import EventRegistrationForm
+from .forms import EventForm, EventRegistrationForm, ContactForm
 from django.views.generic.edit import FormMixin
 from django.views.generic import DetailView
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.contrib import messages
+from .models import ContactMessage
 
 
 class UpcomingEventList(generic.ListView):
@@ -78,3 +82,31 @@ class EventDetails(FormMixin, DetailView):
                 "is_registered": is_registered,
             },
         )
+
+
+class EventCreateView(CreateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'events/event_create.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+
+class AboutView(View):
+    def get(self, request):
+        form = ContactForm()
+        return render(request, 'events/about.html', {'form': form})
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            ContactMessage.objects.create(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            return render(request, "events/success.html")
+        return render(request, 'events/about.html', {'form': form})

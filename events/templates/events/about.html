@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>About EventEase</h1>
+<p>EventEase helps you discover, register for, and manage events with ease. Whether you're hosting or attending, our platform simplifies the entire process.</p>
+
+<hr>
+
+<h2>Contact Us</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+{% if success %}
+    <div class="alert alert-success mt-3">
+        Your message has been sent successfully.
+    </div>
+{% endif %}
+{% endblock %}
